@@ -1369,6 +1369,476 @@ function SectionHeading({ eyebrow, title, body }) {
   );
 }
 
+function getLayoutProfile(themeId) {
+  switch (themeId) {
+    case 'minimal':
+    case 'azure':
+    case 'editorial':
+      return 'serene';
+    case 'glass':
+    case 'organic':
+    case 'midnight':
+    case 'luxe':
+      return 'atmospheric';
+    default:
+      return 'structured';
+  }
+}
+
+function getFeatureMetaLabel(index) {
+  if (index === 0) {
+    return 'System logic';
+  }
+
+  if (index === 1) {
+    return 'Motion profile';
+  }
+
+  return 'Learning layer';
+}
+
+function FeaturesSection({ theme, layoutProfile }) {
+  if (layoutProfile === 'serene') {
+    return (
+      <motion.section {...getReveal(theme.id, 0)} className="theme-panel p-6 sm:p-8">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:items-start">
+          <SectionHeading
+            eyebrow="Features"
+            title="A landing page that teaches the language behind the look."
+            body="The content stays commercial and product-focused while the design engine changes typography, spacing, surface treatment, and animation behavior to demonstrate what really defines a style."
+          />
+
+          <div className="space-y-5">
+            {features.map((feature, index) => (
+              <motion.article
+                key={feature.title}
+                whileHover={getHover(theme.id)}
+                transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+                className="border-t border-[rgb(var(--border)/0.12)] pt-5 first:border-t-0 first:pt-0"
+              >
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div className="max-w-xl">
+                    <p className="text-xs uppercase tracking-[0.24em] text-[rgb(var(--muted))]">
+                      {feature.number}
+                    </p>
+                    <h3 className="display-face mt-4 text-3xl font-semibold leading-tight">
+                      {feature.title}
+                    </h3>
+                  </div>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-[rgb(var(--muted))]">
+                    {getFeatureMetaLabel(index)}
+                  </p>
+                </div>
+                <p className="mt-4 max-w-2xl text-sm leading-7 text-[rgb(var(--muted))]">
+                  {feature.body}
+                </p>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </motion.section>
+    );
+  }
+
+  if (layoutProfile === 'atmospheric') {
+    return (
+      <motion.section {...getReveal(theme.id, 0)} className="theme-panel p-6 sm:p-8">
+        <SectionHeading
+          eyebrow="Features"
+          title="A landing page that teaches the language behind the look."
+          body="The content stays commercial and product-focused while the design engine changes typography, spacing, surface treatment, and animation behavior to demonstrate what really defines a style."
+        />
+
+        <div className="mt-10 grid gap-4 lg:grid-cols-[minmax(0,1.18fr)_minmax(0,0.82fr)]">
+          <motion.article
+            whileHover={getHover(theme.id)}
+            transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+            className="rounded-[calc(var(--card-radius)/1.6)] border border-[rgb(var(--border)/0.14)] bg-[rgb(var(--panel)/0.44)] p-6 sm:p-7"
+          >
+            <p className="text-xs uppercase tracking-[0.24em] text-[rgb(var(--muted))]">
+              {features[0].number}
+            </p>
+            <h3 className="display-face mt-5 max-w-lg text-4xl font-semibold leading-tight">
+              {features[0].title}
+            </h3>
+            <p className="mt-5 max-w-2xl text-base leading-8 text-[rgb(var(--muted))]">
+              {features[0].body}
+            </p>
+            <p className="mt-8 text-[10px] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
+              {getFeatureMetaLabel(0)}
+            </p>
+          </motion.article>
+
+          <div className="space-y-4">
+            {features.slice(1).map((feature, index) => (
+              <motion.article
+                key={feature.title}
+                whileHover={getHover(theme.id)}
+                transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+                className="rounded-[calc(var(--card-radius)/1.8)] border border-[rgb(var(--border)/0.14)] bg-[rgb(var(--panel-soft)/0.38)] p-5"
+              >
+                <p className="text-xs uppercase tracking-[0.24em] text-[rgb(var(--muted))]">
+                  {feature.number}
+                </p>
+                <h3 className="display-face mt-4 text-2xl font-semibold leading-tight">
+                  {feature.title}
+                </h3>
+                <p className="mt-4 text-sm leading-7 text-[rgb(var(--muted))]">{feature.body}</p>
+                <p className="mt-6 text-[10px] uppercase tracking-[0.2em] text-[rgb(var(--muted))]">
+                  {getFeatureMetaLabel(index + 1)}
+                </p>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </motion.section>
+    );
+  }
+
+  return (
+    <motion.section {...getReveal(theme.id, 0)} className="theme-panel p-6 sm:p-8">
+      <SectionHeading
+        eyebrow="Features"
+        title="A landing page that teaches the language behind the look."
+        body="The content stays commercial and product-focused while the design engine changes typography, spacing, surface treatment, and animation behavior to demonstrate what really defines a style."
+      />
+
+      <div className="mt-10 grid gap-4 md:grid-cols-3">
+        {features.map((feature, index) => (
+          <motion.article
+            key={feature.title}
+            whileHover={getHover(theme.id)}
+            transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+            className={classNames(
+              'feature-slab rounded-[calc(var(--card-radius)/1.8)] border border-[rgb(var(--border)/0.14)] bg-[rgb(var(--panel)/0.45)] p-5',
+              index === 0 ? 'md:translate-y-6' : index === 2 ? 'md:-translate-y-4' : '',
+            )}
+          >
+            <p className="text-xs uppercase tracking-[0.24em] text-[rgb(var(--muted))]">
+              {feature.number}
+            </p>
+            <h3 className="display-face mt-5 text-2xl font-semibold leading-tight">
+              {feature.title}
+            </h3>
+            <p className="mt-4 text-sm leading-7 text-[rgb(var(--muted))]">{feature.body}</p>
+            <div className="mt-6 h-px w-full bg-[rgb(var(--border)/0.12)]" />
+            <p className="mt-4 text-xs uppercase tracking-[0.18em] text-[rgb(var(--muted))]">
+              {getFeatureMetaLabel(index)}
+            </p>
+          </motion.article>
+        ))}
+      </div>
+    </motion.section>
+  );
+}
+
+function TestimonialsSection({ theme, layoutProfile }) {
+  if (layoutProfile === 'serene') {
+    return (
+      <motion.section {...getReveal(theme.id, 0.05)} className="theme-panel p-6 sm:p-8">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1.28fr)] lg:items-start">
+          <SectionHeading
+            eyebrow="Testimonials"
+            title="Proof that the design story still sells."
+            body="Each theme keeps the same trust-building structure: concise social proof, clear outcomes, and a product narrative that still feels coherent even when the aesthetic swings dramatically."
+          />
+
+          <div className="divide-y divide-[rgb(var(--border)/0.12)]">
+            {testimonials.map((testimonial) => (
+              <motion.article
+                key={testimonial.name}
+                whileHover={getHover(theme.id)}
+                transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+                className="py-5 first:pt-0 last:pb-0"
+              >
+                <p className="display-face text-3xl leading-none text-[rgb(var(--accent))]">"</p>
+                <p className="mt-4 max-w-3xl text-base leading-8 text-[rgb(var(--text))]">
+                  {testimonial.quote}
+                </p>
+                <div className="mt-5 flex flex-wrap items-center gap-3 text-sm text-[rgb(var(--muted))]">
+                  <span className="font-semibold text-[rgb(var(--text))]">{testimonial.name}</span>
+                  <span className="h-1 w-1 rounded-full bg-[rgb(var(--accent))]" />
+                  <span>{testimonial.role}</span>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </motion.section>
+    );
+  }
+
+  if (layoutProfile === 'atmospheric') {
+    return (
+      <motion.section {...getReveal(theme.id, 0.05)} className="theme-panel p-6 sm:p-8">
+        <SectionHeading
+          eyebrow="Testimonials"
+          title="Proof that the design story still sells."
+          body="Each theme keeps the same trust-building structure: concise social proof, clear outcomes, and a product narrative that still feels coherent even when the aesthetic swings dramatically."
+        />
+
+        <div className="mt-10 grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+          <motion.article
+            whileHover={getHover(theme.id)}
+            transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+            className="rounded-[calc(var(--card-radius)/1.6)] border border-[rgb(var(--border)/0.14)] bg-[rgb(var(--panel)/0.42)] p-6 sm:p-7"
+          >
+            <p className="display-face text-4xl leading-none text-[rgb(var(--accent))]">"</p>
+            <p className="mt-5 max-w-2xl text-lg leading-8 text-[rgb(var(--text))]">
+              {testimonials[0].quote}
+            </p>
+            <div className="mt-7 flex flex-wrap items-center gap-3 text-sm text-[rgb(var(--muted))]">
+              <span className="font-semibold text-[rgb(var(--text))]">{testimonials[0].name}</span>
+              <span className="h-1 w-1 rounded-full bg-[rgb(var(--accent))]" />
+              <span>{testimonials[0].role}</span>
+            </div>
+          </motion.article>
+
+          <div className="space-y-4">
+            {testimonials.slice(1).map((testimonial) => (
+              <motion.article
+                key={testimonial.name}
+                whileHover={getHover(theme.id)}
+                transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+                className="rounded-[calc(var(--card-radius)/1.8)] border border-[rgb(var(--border)/0.14)] bg-[rgb(var(--panel-soft)/0.38)] p-5 sm:p-6"
+              >
+                <p className="text-base leading-8 text-[rgb(var(--text))]">{testimonial.quote}</p>
+                <div className="mt-5 text-sm text-[rgb(var(--muted))]">
+                  <p className="font-semibold text-[rgb(var(--text))]">{testimonial.name}</p>
+                  <p className="mt-1">{testimonial.role}</p>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </motion.section>
+    );
+  }
+
+  return (
+    <motion.section {...getReveal(theme.id, 0.05)} className="theme-panel p-6 sm:p-8">
+      <SectionHeading
+        eyebrow="Testimonials"
+        title="Proof that the design story still sells."
+        body="Each theme keeps the same trust-building structure: concise social proof, clear outcomes, and a product narrative that still feels coherent even when the aesthetic swings dramatically."
+      />
+
+      <div className="mt-10 grid gap-4 md:grid-cols-3">
+        {testimonials.map((testimonial, index) => (
+          <motion.article
+            key={testimonial.name}
+            whileHover={getHover(theme.id)}
+            transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+            className={classNames(
+              'rounded-[calc(var(--card-radius)/1.8)] border border-[rgb(var(--border)/0.14)] bg-[rgb(var(--panel)/0.42)] p-5 sm:p-6',
+              index === 1 ? 'md:translate-y-8' : '',
+            )}
+          >
+            <p className="display-face text-3xl leading-none text-[rgb(var(--accent))]">"</p>
+            <p className="mt-4 text-base leading-8 text-[rgb(var(--text))]">{testimonial.quote}</p>
+            <div className="mt-6 text-sm text-[rgb(var(--muted))]">
+              <p className="font-semibold text-[rgb(var(--text))]">{testimonial.name}</p>
+              <p className="mt-1">{testimonial.role}</p>
+            </div>
+          </motion.article>
+        ))}
+      </div>
+    </motion.section>
+  );
+}
+
+function ComponentGuidesSection({ theme, layoutProfile }) {
+  if (layoutProfile === 'serene') {
+    return (
+      <motion.section {...getReveal(theme.id, 0.08)} className="theme-panel p-6 sm:p-8">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:items-start">
+          <SectionHeading
+            eyebrow="Component Encyclopedia"
+            title="Core web design building blocks, explained in plain language."
+            body="This demo now teaches what the common modules actually do. Each pattern is framed as a plain-language system note instead of a generic UI card."
+          />
+
+          <div className="space-y-4">
+            {componentGuides.map((item) => (
+              <motion.article
+                key={item.name}
+                whileHover={getHover(theme.id)}
+                transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+                className="rounded-[calc(var(--card-radius)/1.9)] border border-[rgb(var(--border)/0.14)] bg-[rgb(var(--panel)/0.4)] p-5"
+              >
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <p className="text-[0.68rem] uppercase tracking-[0.24em] text-[rgb(var(--muted))]">
+                      Web Pattern
+                    </p>
+                    <h3 className="display-face mt-3 text-3xl font-semibold leading-tight">
+                      {item.name}
+                    </h3>
+                  </div>
+                  <span className="rounded-full border border-[rgb(var(--border)/0.14)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-[rgb(var(--muted))]">
+                    {item.status}
+                  </span>
+                </div>
+
+                <dl className="mt-6 space-y-4 text-sm leading-7 text-[rgb(var(--text))]">
+                  <div>
+                    <dt className="text-[0.68rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
+                      Purpose
+                    </dt>
+                    <dd className="mt-1">{item.purpose}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-[0.68rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
+                      When To Use It
+                    </dt>
+                    <dd className="mt-1">{item.whenToUse}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-[0.68rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
+                      Typical Anatomy
+                    </dt>
+                    <dd className="mt-1">{item.anatomy}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-[0.68rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
+                      Common Mistake
+                    </dt>
+                    <dd className="mt-1">{item.caution}</dd>
+                  </div>
+                </dl>
+              </motion.article>
+            ))}
+          </div>
+        </div>
+      </motion.section>
+    );
+  }
+
+  if (layoutProfile === 'atmospheric') {
+    return (
+      <motion.section {...getReveal(theme.id, 0.08)} className="theme-panel p-6 sm:p-8">
+        <SectionHeading
+          eyebrow="Component Encyclopedia"
+          title="Core web design building blocks, explained in plain language."
+          body="This demo now teaches what the common modules actually do. The layout shifts between a lead teaching note and supporting pattern studies instead of using one repeated card rhythm."
+        />
+
+        <div className="mt-10 grid gap-4 md:grid-cols-2">
+          {componentGuides.map((item, index) => (
+            <motion.article
+              key={item.name}
+              whileHover={getHover(theme.id)}
+              transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+              className={classNames(
+                'rounded-[calc(var(--card-radius)/1.8)] border border-[rgb(var(--border)/0.14)] bg-[rgb(var(--panel)/0.45)] p-5 sm:p-6',
+                index === 0 ? 'md:col-span-2 md:grid md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] md:gap-8' : '',
+              )}
+            >
+              <div>
+                <p className="text-[0.68rem] uppercase tracking-[0.24em] text-[rgb(var(--muted))]">
+                  Web Pattern
+                </p>
+                <h3 className="display-face mt-3 text-3xl font-semibold leading-tight">{item.name}</h3>
+                <span className="mt-4 inline-flex rounded-full border border-[rgb(var(--border)/0.14)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-[rgb(var(--muted))]">
+                  {item.status}
+                </span>
+              </div>
+
+              <div className="mt-6 grid gap-4 text-sm leading-7 text-[rgb(var(--text))] md:mt-0">
+                <div>
+                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
+                    Purpose
+                  </p>
+                  <p className="mt-1">{item.purpose}</p>
+                </div>
+                <div>
+                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
+                    When To Use It
+                  </p>
+                  <p className="mt-1">{item.whenToUse}</p>
+                </div>
+                <div>
+                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
+                    Typical Anatomy
+                  </p>
+                  <p className="mt-1">{item.anatomy}</p>
+                </div>
+                <div>
+                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
+                    Common Mistake
+                  </p>
+                  <p className="mt-1">{item.caution}</p>
+                </div>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </motion.section>
+    );
+  }
+
+  return (
+    <motion.section {...getReveal(theme.id, 0.08)} className="theme-panel p-6 sm:p-8">
+      <SectionHeading
+        eyebrow="Component Encyclopedia"
+        title="Core web design building blocks, explained in plain language."
+        body="This demo now teaches what the common modules actually do. The system view is denser here, with each pattern laid out more like an annotated spec row."
+      />
+
+      <div className="mt-10 divide-y divide-[rgb(var(--border)/0.12)]">
+        {componentGuides.map((item) => (
+          <motion.article
+            key={item.name}
+            whileHover={getHover(theme.id)}
+            transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+            className="grid gap-6 py-5 first:pt-0 last:pb-0 lg:grid-cols-[200px_minmax(0,1fr)_minmax(0,1fr)]"
+          >
+            <div>
+              <p className="text-[0.68rem] uppercase tracking-[0.24em] text-[rgb(var(--muted))]">
+                Web Pattern
+              </p>
+              <h3 className="display-face mt-3 text-3xl font-semibold leading-tight">{item.name}</h3>
+              <span className="mt-4 inline-flex rounded-full border border-[rgb(var(--border)/0.14)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-[rgb(var(--muted))]">
+                {item.status}
+              </span>
+            </div>
+
+            <div className="space-y-4 text-sm leading-7 text-[rgb(var(--text))]">
+              <div>
+                <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
+                  Purpose
+                </p>
+                <p className="mt-1">{item.purpose}</p>
+              </div>
+              <div>
+                <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
+                  When To Use It
+                </p>
+                <p className="mt-1">{item.whenToUse}</p>
+              </div>
+            </div>
+
+            <div className="space-y-4 text-sm leading-7 text-[rgb(var(--text))]">
+              <div>
+                <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
+                  Typical Anatomy
+                </p>
+                <p className="mt-1">{item.anatomy}</p>
+              </div>
+              <div>
+                <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
+                  Common Mistake
+                </p>
+                <p className="mt-1">{item.caution}</p>
+              </div>
+            </div>
+          </motion.article>
+        ))}
+      </div>
+    </motion.section>
+  );
+}
+
 function App() {
   const [activeThemeId, setActiveThemeId] = useState(themes[0].id);
   const [activeDrawer, setActiveDrawer] = useState(null);
@@ -1378,6 +1848,7 @@ function App() {
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
   const mobileCarouselMeasureRef = useRef(null);
   const activeTheme = themes.find((theme) => theme.id === activeThemeId) ?? themes[0];
+  const layoutProfile = getLayoutProfile(activeTheme.id);
   const openStylesDrawer = () => setActiveDrawer('styles');
   const openBlueprintDrawer = () => setActiveDrawer('blueprint');
   const closeDrawer = () => setActiveDrawer(null);
@@ -1610,71 +2081,9 @@ function App() {
 
         <section className="mx-auto max-w-7xl px-6 pb-24">
           <div className="space-y-10">
-              <motion.section {...getReveal(activeTheme.id, 0)} className="theme-panel p-6 sm:p-8">
-                <SectionHeading
-                  eyebrow="Features"
-                  title="A landing page that teaches the language behind the look."
-                  body="The content stays commercial and product-focused while the design engine changes typography, spacing, surface treatment, and animation behavior to demonstrate what really defines a style."
-                />
+              <FeaturesSection theme={activeTheme} layoutProfile={layoutProfile} />
 
-                <div className="mt-10 grid gap-4 md:grid-cols-3">
-                  {features.map((feature, index) => (
-                    <motion.article
-                      key={feature.title}
-                      whileHover={getHover(activeTheme.id)}
-                      transition={{ type: 'spring', stiffness: 220, damping: 18 }}
-                      className="feature-slab rounded-[calc(var(--card-radius)/1.8)] border border-[rgb(var(--border)/0.14)] bg-[rgb(var(--panel)/0.45)] p-5"
-                    >
-                      <p className="text-xs uppercase tracking-[0.24em] text-[rgb(var(--muted))]">
-                        {feature.number}
-                      </p>
-                      <h3 className="display-face mt-5 text-2xl font-semibold leading-tight">
-                        {feature.title}
-                      </h3>
-                      <p className="mt-4 text-sm leading-7 text-[rgb(var(--muted))]">
-                        {feature.body}
-                      </p>
-                      <div className="mt-6 h-px w-full bg-[rgb(var(--border)/0.12)]" />
-                      <p className="mt-4 text-xs uppercase tracking-[0.18em] text-[rgb(var(--muted))]">
-                        {index === 0
-                          ? 'System logic'
-                          : index === 1
-                            ? 'Motion profile'
-                            : 'Learning layer'}
-                      </p>
-                    </motion.article>
-                  ))}
-                </div>
-              </motion.section>
-
-              <motion.section {...getReveal(activeTheme.id, 0.05)} className="theme-panel p-6 sm:p-8">
-                <SectionHeading
-                  eyebrow="Testimonials"
-                  title="Proof that the design story still sells."
-                  body="Each theme keeps the same trust-building structure: concise social proof, clear outcomes, and a product narrative that still feels coherent even when the aesthetic swings dramatically."
-                />
-
-                <div className="mt-10 grid gap-4">
-                  {testimonials.map((testimonial) => (
-                    <motion.article
-                      key={testimonial.name}
-                      whileHover={getHover(activeTheme.id)}
-                      transition={{ type: 'spring', stiffness: 220, damping: 18 }}
-                      className="rounded-[calc(var(--card-radius)/1.8)] border border-[rgb(var(--border)/0.14)] bg-[rgb(var(--panel)/0.42)] p-5 sm:p-6"
-                    >
-                      <p className="display-face text-3xl leading-none text-[rgb(var(--accent))]">"</p>
-                      <p className="mt-4 max-w-3xl text-base leading-8 text-[rgb(var(--text))]">
-                        {testimonial.quote}
-                      </p>
-                      <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-[rgb(var(--muted))]">
-                        <span className="font-semibold text-[rgb(var(--text))]">{testimonial.name}</span>
-                        <span className="h-1 w-1 rounded-full bg-[rgb(var(--accent))]" />
-                        <span>{testimonial.role}</span>
-                      </div>
-                    </motion.article>
-                  ))}
-                </div>
-              </motion.section>
+              <TestimonialsSection theme={activeTheme} layoutProfile={layoutProfile} />
 
               <motion.section {...getReveal(activeTheme.id, 0.07)} className="theme-panel p-6 sm:p-8">
                 <SectionHeading
@@ -1763,65 +2172,7 @@ function App() {
                 </div>
               </motion.section>
 
-              <motion.section {...getReveal(activeTheme.id, 0.08)} className="theme-panel p-6 sm:p-8">
-                <SectionHeading
-                  eyebrow="Component Encyclopedia"
-                  title="Core web design building blocks, explained in plain language."
-                  body="This demo now teaches what the common modules actually do. Each card explains the role of a pattern, when it belongs on a page, what usually goes inside it, and what can go wrong when it is misused."
-                />
-
-                <div className="mt-10 grid gap-4 xl:grid-cols-2">
-                  {componentGuides.map((item) => (
-                    <motion.article
-                      key={item.name}
-                      whileHover={getHover(activeTheme.id)}
-                      transition={{ type: 'spring', stiffness: 220, damping: 18 }}
-                      className="rounded-[calc(var(--card-radius)/1.8)] border border-[rgb(var(--border)/0.14)] bg-[rgb(var(--panel)/0.45)] p-5 sm:p-6"
-                    >
-                      <div className="flex flex-wrap items-start justify-between gap-3">
-                        <div>
-                          <p className="text-[0.68rem] uppercase tracking-[0.24em] text-[rgb(var(--muted))]">
-                            Web Pattern
-                          </p>
-                          <h3 className="display-face mt-3 text-3xl font-semibold leading-tight">
-                            {item.name}
-                          </h3>
-                        </div>
-                        <span className="rounded-full border border-[rgb(var(--border)/0.14)] px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-[rgb(var(--muted))]">
-                          {item.status}
-                        </span>
-                      </div>
-
-                      <div className="mt-6 space-y-4 text-sm leading-7 text-[rgb(var(--text))]">
-                        <div>
-                          <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
-                            Purpose
-                          </p>
-                          <p className="mt-1">{item.purpose}</p>
-                        </div>
-                        <div>
-                          <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
-                            When To Use It
-                          </p>
-                          <p className="mt-1">{item.whenToUse}</p>
-                        </div>
-                        <div>
-                          <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
-                            Typical Anatomy
-                          </p>
-                          <p className="mt-1">{item.anatomy}</p>
-                        </div>
-                        <div>
-                          <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
-                            Common Mistake
-                          </p>
-                          <p className="mt-1">{item.caution}</p>
-                        </div>
-                      </div>
-                    </motion.article>
-                  ))}
-                </div>
-              </motion.section>
+              <ComponentGuidesSection theme={activeTheme} layoutProfile={layoutProfile} />
 
               <motion.section {...getReveal(activeTheme.id, 0.09)} className="theme-panel p-6 sm:p-8">
                 <SectionHeading
