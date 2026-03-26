@@ -737,7 +737,7 @@ function buildThemePrompt(theme) {
 
 function getReveal(themeId, delay = 0) {
   const base = {
-    viewport: { once: true, amount: 0.24 },
+    viewport: { once: true, amount: 0.12 },
   };
 
   switch (themeId) {
@@ -1568,7 +1568,7 @@ function App() {
                 />
 
                 <div className="mt-10 grid gap-6 lg:grid-cols-[minmax(0,1fr)_240px] lg:items-start">
-                  <div className="relative min-h-[30rem] overflow-hidden sm:min-h-[26rem] lg:min-h-[24rem]">
+                  <div className="relative overflow-visible sm:min-h-[26rem] sm:overflow-hidden lg:min-h-[24rem]">
                     <AnimatePresence initial={false} custom={carouselDirection}>
                       <motion.article
                         key={activeSlide.title}
@@ -1578,7 +1578,7 @@ function App() {
                         animate="center"
                         exit="exit"
                         transition={carouselMotion.transition}
-                        className="absolute inset-0 flex h-full flex-col rounded-[calc(var(--card-radius)/1.7)] border border-[rgb(var(--border)/0.14)] bg-[rgb(var(--panel)/0.45)] p-6"
+                        className="relative flex flex-col rounded-[calc(var(--card-radius)/1.7)] border border-[rgb(var(--border)/0.14)] bg-[rgb(var(--panel)/0.45)] p-6 sm:absolute sm:inset-0 sm:h-full"
                       >
                         <p className="text-[0.68rem] uppercase tracking-[0.24em] text-[rgb(var(--muted))]">
                           {activeSlide.label}
