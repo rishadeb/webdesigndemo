@@ -50,6 +50,53 @@ const themes = [
     },
   },
   {
+    id: 'azure',
+    name: 'Azure Minimal',
+    tone: 'Calm signal',
+    blurb: 'Minimal structure with cool blue contrast and product clarity.',
+    motion: 'minimal',
+    scheme: 'light',
+    stageLabel: 'Blue carries the hierarchy',
+    principles: ['Whitespace-led', 'Blue ink accents', 'Quiet precision'],
+    blueprint: {
+      typography:
+        'Keep the same restrained sans-serif system as classic minimalism, but let blue-toned contrast and crisp spacing carry the personality instead of monochrome tension.',
+      spacing:
+        'Preserve long vertical rhythm, disciplined content widths, and generous outer gutters so the interface still feels sparse, measured, and premium.',
+      css: [
+        'background: cool paper blues',
+        'border: 1px solid rgba(32, 58, 102, 0.14)',
+        'accent color: deep azure instead of black',
+        'shadows: soft and low-contrast only',
+      ],
+      metaPrompt:
+        'Design a blue-minimal product landing page with generous whitespace, crisp sans-serif typography, cool paper-like surfaces, deep azure accents, thin dividers, and almost no ornament. Let spacing, type, and blue contrast create hierarchy instead of heavy decoration.',
+    },
+    vars: {
+      '--bg': '238 244 252',
+      '--panel': '250 252 255',
+      '--panel-soft': '229 237 248',
+      '--text': '20 35 64',
+      '--muted': '93 110 140',
+      '--accent': '38 92 184',
+      '--accent-2': '108 156 232',
+      '--border': '32 58 102',
+      '--grid-line': '76 118 188',
+      '--button-text': '245 249 255',
+      '--font-display': '"Avenir Next", "Helvetica Neue", sans-serif',
+      '--font-body': '"Avenir Next", "Helvetica Neue", sans-serif',
+      '--display-tracking': '-0.06em',
+      '--grid-opacity': '0.05',
+      '--halo-opacity': '0.22',
+      '--surface-blur': '0px',
+      '--outline-size': '1px',
+      '--card-radius': '30px',
+      '--button-radius': '999px',
+      '--panel-alpha': '0.95',
+      '--shadow': '0 30px 70px rgba(38, 92, 184, 0.1)',
+    },
+  },
+  {
     id: 'glass',
     name: 'Glassmorphism',
     tone: 'Ambient layers',
@@ -437,6 +484,16 @@ const themeGuideContent = {
     motion:
       'Use subtle fades, small vertical lifts, and quiet transitions with no bounce. Motion should clarify hierarchy, not add personality.',
     avoid: ['Harsh gradients', 'Dense UI clusters', 'Oversized shadows', 'Decorative icons'],
+  },
+  azure: {
+    thesis: 'Keep minimalist restraint, but use an azure palette to make hierarchy feel product-ready instead of monochrome.',
+    layout:
+      'Treat the page like a clean software brand system with wide negative space, narrow text measures, and calm blue contrast guiding the scan path.',
+    components:
+      'Use pill buttons, thin blue-toned borders, cool paper surfaces, understated panels, and restrained emphasis blocks that feel systematic rather than decorative.',
+    motion:
+      'Use the same quiet upward reveals and soft fades as minimalism. Motion should feel precise, clear, and almost invisible once the section settles.',
+    avoid: ['Glossy gradients', 'Dark heavy chrome', 'Multiple accent colors', 'Loud glass effects'],
   },
   glass: {
     thesis: 'Build luminous depth with translucent surfaces floating above vivid atmospheric color.',
