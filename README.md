@@ -18,6 +18,12 @@ npm run preview
 
 ## GitHub Pages deployment
 
-This repo includes a GitHub Actions workflow that builds the site and deploys `dist/` to GitHub Pages whenever changes are pushed to the `main` branch.
+Deploy the site with:
 
-Local development keeps using the normal root path. During GitHub Actions builds, Vite automatically switches its base path to the repository name so the site works correctly on Pages.
+```bash
+npm run deploy
+```
+
+This command builds the app with the GitHub Pages base path and publishes `dist/` to the `gh-pages` branch using the `gh-pages` package.
+
+Local development keeps using the normal root path, so `npm run dev`, `npm run build`, and `npm run preview` continue to work as expected.
