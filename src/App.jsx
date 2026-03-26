@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const themes = [
@@ -1282,6 +1282,26 @@ function HeroStage({ theme }) {
   );
 }
 
+function CarouselSlideContent({ slide }) {
+  return (
+    <>
+      <p className="text-[0.68rem] uppercase tracking-[0.24em] text-[rgb(var(--muted))]">
+        {slide.label}
+      </p>
+      <h3 className="display-face mt-4 text-3xl font-semibold leading-tight">{slide.title}</h3>
+      <p className="mt-4 max-w-3xl text-base leading-8 text-[rgb(var(--muted))]">{slide.body}</p>
+      <div className="mt-auto pt-6">
+        <div className="rounded-[calc(var(--card-radius)/2)] border border-[rgb(var(--border)/0.12)] bg-[rgb(var(--panel-soft)/0.35)] p-4">
+          <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
+            Key Teaching Point
+          </p>
+          <p className="mt-2 text-sm leading-7 text-[rgb(var(--text))]">{slide.takeaway}</p>
+        </div>
+      </div>
+    </>
+  );
+}
+
 function SectionHeading({ eyebrow, title, body }) {
   return (
     <div className="max-w-2xl">
@@ -1297,7 +1317,9 @@ function App() {
   const [activeDrawer, setActiveDrawer] = useState(null);
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [carouselDirection, setCarouselDirection] = useState(1);
+  const [mobileCarouselHeight, setMobileCarouselHeight] = useState(null);
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
+  const mobileCarouselMeasureRef = useRef(null);
   const activeTheme = themes.find((theme) => theme.id === activeThemeId) ?? themes[0];
   const openStylesDrawer = () => setActiveDrawer('styles');
   const openBlueprintDrawer = () => setActiveDrawer('blueprint');
@@ -1358,6 +1380,43 @@ function App() {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
+
+  useLayoutEffect(() => {
+    const measureRoot = mobileCarouselMeasureRef.current;
+
+    if (!measureRoot) {
+      return undefined;
+    }
+
+    const measure = () => {
+      const heights = Array.from(measureRoot.children, (node) =>
+        Math.ceil(node.getBoundingClientRect().height),
+      );
+      const tallest = heights.length ? Math.max(...heights) : 0;
+      setMobileCarouselHeight((current) => (current === tallest ? current : tallest));
+    };
+
+    measure();
+
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', measure);
+
+      return () => {
+        window.removeEventListener('resize', measure);
+      };
+    }
+
+    const observer = new ResizeObserver(() => {
+      measure();
+    });
+
+    observer.observe(measureRoot);
+    Array.from(measureRoot.children).forEach((node) => observer.observe(node));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [activeThemeId]);
 
   return (
     <div className="app-shell min-h-screen" data-theme={activeTheme.id} style={activeTheme.vars}>
@@ -1568,7 +1627,25 @@ function App() {
                 />
 
                 <div className="mt-10 grid gap-6 lg:grid-cols-[minmax(0,1fr)_240px] lg:items-start">
-                  <div className="relative overflow-visible sm:min-h-[26rem] sm:overflow-hidden lg:min-h-[24rem]">
+                  <div
+                    className="relative overflow-hidden sm:min-h-[26rem] lg:min-h-[24rem]"
+                    style={mobileCarouselHeight ? { minHeight: `${mobileCarouselHeight}px` } : undefined}
+                  >
+                    <div
+                      ref={mobileCarouselMeasureRef}
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-x-0 top-0 -z-10 opacity-0 sm:hidden"
+                    >
+                      {carouselSlides.map((slide) => (
+                        <div
+                          key={slide.label}
+                          className="mb-6 flex flex-col rounded-[calc(var(--card-radius)/1.7)] border border-[rgb(var(--border)/0.14)] bg-[rgb(var(--panel)/0.45)] p-6 last:mb-0"
+                        >
+                          <CarouselSlideContent slide={slide} />
+                        </div>
+                      ))}
+                    </div>
+
                     <AnimatePresence initial={false} custom={carouselDirection}>
                       <motion.article
                         key={activeSlide.title}
@@ -1578,27 +1655,9 @@ function App() {
                         animate="center"
                         exit="exit"
                         transition={carouselMotion.transition}
-                        className="relative flex flex-col rounded-[calc(var(--card-radius)/1.7)] border border-[rgb(var(--border)/0.14)] bg-[rgb(var(--panel)/0.45)] p-6 sm:absolute sm:inset-0 sm:h-full"
+                        className="absolute inset-0 flex h-full flex-col rounded-[calc(var(--card-radius)/1.7)] border border-[rgb(var(--border)/0.14)] bg-[rgb(var(--panel)/0.45)] p-6"
                       >
-                        <p className="text-[0.68rem] uppercase tracking-[0.24em] text-[rgb(var(--muted))]">
-                          {activeSlide.label}
-                        </p>
-                        <h3 className="display-face mt-4 text-3xl font-semibold leading-tight">
-                          {activeSlide.title}
-                        </h3>
-                        <p className="mt-4 max-w-3xl text-base leading-8 text-[rgb(var(--muted))]">
-                          {activeSlide.body}
-                        </p>
-                        <div className="mt-auto pt-6">
-                          <div className="rounded-[calc(var(--card-radius)/2)] border border-[rgb(var(--border)/0.12)] bg-[rgb(var(--panel-soft)/0.35)] p-4">
-                            <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[rgb(var(--muted))]">
-                              Key Teaching Point
-                            </p>
-                            <p className="mt-2 text-sm leading-7 text-[rgb(var(--text))]">
-                              {activeSlide.takeaway}
-                            </p>
-                          </div>
-                        </div>
+                        <CarouselSlideContent slide={activeSlide} />
                       </motion.article>
                     </AnimatePresence>
                   </div>
